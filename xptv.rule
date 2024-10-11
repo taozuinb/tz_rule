@@ -1,6 +1,6 @@
-#!url=https://raw.githubusercontent.com/taozuinb/tz_rule/refs/heads/main/xptv.rule
-#!name=XPTV规则
-#!desc=仅直连
+# url=https://raw.githubusercontent.com/taozuinb/tz_rule/refs/heads/main/xptv.rule
+# name=XPTV规则
+# desc=仅直连
 
 #玩偶哥哥（直连）
 DOMAIN-KEYWORD,wogg
