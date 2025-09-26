@@ -1,4 +1,4 @@
-DOMAIN,91md.me
+DOMAIN-SUFFIX,91md.me
 DOMAIN-SUFFIX,google.com
 DOMAIN-SUFFIX,langfuse.com
 DOMAIN-SUFFIX,langchain.com
@@ -10,7 +10,16 @@ DOMAIN-SUFFIX,qwant.com
 DOMAIN-SUFFIX,searxng.org
 DOMAIN-SUFFIX,1yunti.net
 DOMAIN-KEYWORD,1ytdy-cn
-DOMAIN-SUFFIX,searxng.org
 DOMAIN-SUFFIX,packagist.org
 DOMAIN,downloads.marketplace.jetbrains.com
 DOMAIN,plugins.jetbrains.com
+DOMAIN-SUFFIX,card.onekey.so
+DOMAIN-SUFFIX,auth.docker.io
+DOMAIN-SUFFIX,steamcommunity.com
+DOMAIN-SUFFIX,steampowered.com
+DOMAIN-SUFFIX,cloudflare.com
+DOMAIN-SUFFIX,themoviedb.org
+DOMAIN-SUFFIX,github.com
+DOMAIN-SUFFIX,brew.sh
+DOMAIN-SUFFIX,react.dev
+DOMAIN-SUFFIX,netdata.cloud
