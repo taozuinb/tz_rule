@@ -1,0 +1,734 @@
+mixed-port: 7890
+allow-lan: true
+bind-address: '*'
+mode: rule
+log-level: info
+ipv6: true
+tcp-concurrent: true
+unified-delay: true
+external-controller: 0.0.0.0:9090
+secret: taozui123
+external-ui: /opt/mihomo/config/ui
+external-ui-name: zashboard
+external-ui-url: https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages-no-fonts.zip
+profile:
+  store-selected: true
+  store-fake-ip: true
+geodata-mode: true
+geox-url:
+  geoip: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
+  geosite: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
+  mmdb: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/Country.mmdb
+dns:
+  enable: true
+  listen: 127.0.0.1:1053
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver:
+  - 223.5.5.5
+  - 119.29.29.29
+  proxy-server-nameserver:
+  - 223.5.5.5
+  - 119.29.29.29
+  nameserver:
+  - 223.5.5.5
+  - https://1.1.1.1/dns-query#qqg-AnyTLS
+  direct-nameserver:
+  - 223.5.5.5
+  - 119.29.29.29
+  nameserver-policy:
+    geosite:cn:
+    - 223.5.5.5
+    - 119.29.29.29
+    cdn.jsdelivr.net:
+    - 127.0.0.1:53
+    api4.thetvdb.com:
+    - 127.0.0.1:53
+    taozui.nuc:
+    - 127.0.0.1:53
+    taozui.nas:
+    - 127.0.0.1:53
+    zerotier.homepc:
+    - 127.0.0.1:53
+    '*.taozui.nuc':
+    - 127.0.0.1:53
+    '*.nuc.taozui.cool':
+    - 127.0.0.1:53
+    '*.nuc.taozui.test':
+    - 127.0.0.1:53
+    homeassistant.local:
+    - 127.0.0.1:53
+  fake-ip-filter:
+  - '*.lan'
+  - '*.local'
+  - '*.nuc'
+  - '*.nas'
+  - +.taozui.cool
+  - +.taozui.nuc
+  - +.taozui.nas
+  - nuc.taozui.online
+  - nas.taozui.online
+  - '*.nuc.taozui.online'
+  - cdn.jsdelivr.net
+  - api4.thetvdb.com
+  - taozui.nuc
+  - taozui.nas
+  - zerotier.homepc
+  - '*.taozui.nuc'
+  - '*.nuc.taozui.cool'
+  - '*.nuc.taozui.test'
+  - homeassistant.local
+hosts:
+  substore.nuc.taozui.online: 172.18.0.34
+  nas.taozui.cool: 192.168.50.96
+  nuc.taozui.cool: 192.168.50.69
+  '*.nuc.taozui.cool': 192.168.50.69
+  '*.taozui.nas': 192.168.50.96
+  '*.taozui.nuc': 192.168.50.69
+  nuc.taozui.online: 192.168.50.69
+  '*.nuc.taozui.online': 192.168.50.69
+  nas.taozui.online: 192.168.50.96
+proxies:
+  - name: qqg-AnyTLS
+    type: anytls
+    server: qqg.taozui.online
+    port: 45683
+    password: "6497decbdb2e023dda81854f9c34cb7d1aefa282b25aa0cd"
+    sni: qqg.taozui.online
+    skip-cert-verify: false
+    client-fingerprint: chrome
+    udp: true
+  - name: 家人云-AnyTLS
+    type: anytls
+    server: jr.taozui.online
+    port: 45683
+    password: "ba9353531060e5b8aed086962624be945ef4d00d4ac34b51"
+    sni: jr.taozui.online
+    skip-cert-verify: false
+    client-fingerprint: chrome
+    udp: true
+proxy-providers:
+  daily:
+    type: http
+    url: https://substore.nuc.taozui.online/8ec546677e46430d9c7/download/collection/%E5%90%88%E5%B9%B6%E8%AE%A2%E9%98%85-%E6%97%A5%E5%B8%B8?target=ClashMeta
+    path: ./providers/daily.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://cp.cloudflare.com/generate_204
+      interval: 300
+  all:
+    type: http
+    url: https://substore.nuc.taozui.online/8ec546677e46430d9c7/download/collection/%E5%90%88%E5%B9%B6%E8%AE%A2%E9%98%85-%20%E5%85%A8%E9%87%8F?target=ClashMeta
+    path: ./providers/all.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://cp.cloudflare.com/generate_204
+      interval: 300
+proxy-groups:
+- name: 🚀 手动切换
+  type: select
+  proxies:
+  - qqg-AnyTLS
+  - 家人云-AnyTLS
+  - DIRECT
+  use:
+  - daily
+- name: 🚀 节点选择
+  type: select
+  proxies:
+  - ♻️ 自动选择
+  - qqg-AnyTLS
+  - 家人云-AnyTLS
+  - 📦 全量自动选择
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇸🇬 狮城节点
+  - 🇯🇵 日本节点
+  - 🇺🇲 美国节点
+  - 🇰🇷 韩国节点
+  - 🇹🇷 土耳其节点
+  - 🚀 手动切换
+  - DIRECT
+- name: 🚀 影视节点选择
+  type: select
+  proxies:
+  - 🚀 节点选择
+  - qqg-AnyTLS
+  - 家人云-AnyTLS
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇸🇬 狮城节点
+  - 🇯🇵 日本节点
+  - 🇺🇲 美国节点
+  - DIRECT
+- name: ♻️ 自动选择
+  type: url-test
+  use:
+  - daily
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 📦 全量自动选择
+  type: url-test
+  use:
+  - all
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  tolerance: 50
+- name: 🇭🇰 香港节点
+  type: url-test
+  use:
+  - daily
+  filter: (?i)(🇭🇰|港|hong|hk)
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  tolerance: 150
+- name: 🇹🇼 台湾节点
+  type: url-test
+  use:
+  - daily
+  filter: (?i)(🇹🇼|台|tai|tw)
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  tolerance: 150
+- name: 🇺🇲 美国节点
+  type: url-test
+  use:
+  - daily
+  filter: (?i)(🇺🇸|美|states|us)
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  tolerance: 150
+- name: 🇯🇵 日本节点
+  type: url-test
+  use:
+  - daily
+  filter: (?i)(🇯🇵|日|japan|jp)
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  tolerance: 150
+- name: 🇸🇬 狮城节点
+  type: url-test
+  use:
+  - daily
+  filter: (?i)(🇸🇬|新|singapore|sg)
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  tolerance: 150
+- name: 🇰🇷 韩国节点
+  type: url-test
+  use:
+  - daily
+  filter: (?i)(🇰🇷|韩|korea|kr)
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  tolerance: 150
+- name: 🇹🇷 土耳其节点
+  type: url-test
+  use:
+  - daily
+  filter: (?i)(🇹🇷|土耳其|turkey|tr)
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  tolerance: 150
+- name: 🎥 奈飞节点
+  type: select
+  use:
+  - daily
+  filter: (?i)(nf|奈飞|netflix|video)
+- name: 📲 电报消息
+  type: select
+  proxies:
+  - 🚀 节点选择
+  - ♻️ 自动选择
+  - 🇸🇬 狮城节点
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇯🇵 日本节点
+  - 🇺🇲 美国节点
+  - 🇰🇷 韩国节点
+  - 🚀 手动切换
+  - DIRECT
+- name: 💬 OpenAi
+  type: select
+  proxies:
+  - 🚀 节点选择
+  - qqg-AnyTLS
+  - 家人云-AnyTLS
+  - ♻️ 自动选择
+  - 🇸🇬 狮城节点
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇺🇲 美国节点
+  - 🇰🇷 韩国节点
+  - 🇹🇷 土耳其节点
+  - 🚀 手动切换
+  - DIRECT
+- name: 📹 油管视频
+  type: select
+  proxies:
+  - 🚀 节点选择
+  - ♻️ 自动选择
+  - 🇸🇬 狮城节点
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇯🇵 日本节点
+  - 🇺🇲 美国节点
+  - 🇰🇷 韩国节点
+  - 🚀 手动切换
+  - DIRECT
+- name: 🎥 奈飞视频
+  type: select
+  proxies:
+  - 🎥 奈飞节点
+  - 🚀 节点选择
+- name: 📺 巴哈姆特
+  type: select
+  proxies:
+  - 🇹🇼 台湾节点
+  - 🚀 节点选择
+  - 🚀 手动切换
+  - DIRECT
+- name: 📺 哔哩哔哩
+  type: select
+  proxies:
+  - 🎯 全球直连
+  - 🇹🇼 台湾节点
+  - 🇭🇰 香港节点
+- name: 🌍 国外媒体
+  type: select
+  proxies:
+  - 🚀 节点选择
+  - ♻️ 自动选择
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇸🇬 狮城节点
+  - 🇯🇵 日本节点
+  - 🇺🇲 美国节点
+  - 🇰🇷 韩国节点
+  - 🚀 手动切换
+  - DIRECT
+- name: 🌏 国内媒体
+  type: select
+  proxies:
+  - DIRECT
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇸🇬 狮城节点
+  - 🇯🇵 日本节点
+  - 🚀 手动切换
+- name: 📢 谷歌FCM
+  type: select
+  proxies:
+  - DIRECT
+  - 🚀 节点选择
+  - 🇺🇲 美国节点
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇸🇬 狮城节点
+  - 🇯🇵 日本节点
+  - 🇰🇷 韩国节点
+  - 🚀 手动切换
+- name: Ⓜ️ 微软云盘
+  type: select
+  proxies:
+  - DIRECT
+  - 🚀 节点选择
+  - 🇺🇲 美国节点
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇸🇬 狮城节点
+  - 🇯🇵 日本节点
+  - 🇰🇷 韩国节点
+  - 🚀 手动切换
+- name: Ⓜ️ 微软服务
+  type: select
+  proxies:
+  - DIRECT
+  - 🚀 节点选择
+  - 🇺🇲 美国节点
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇸🇬 狮城节点
+  - 🇯🇵 日本节点
+  - 🇰🇷 韩国节点
+  - 🚀 手动切换
+- name: 🍎 苹果服务
+  type: select
+  proxies:
+  - DIRECT
+  - 🚀 节点选择
+  - 🇺🇲 美国节点
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇸🇬 狮城节点
+  - 🇯🇵 日本节点
+  - 🇰🇷 韩国节点
+  - 🚀 手动切换
+- name: 🎮 游戏平台
+  type: select
+  proxies:
+  - DIRECT
+  - 🚀 节点选择
+  - 🇺🇲 美国节点
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇸🇬 狮城节点
+  - 🇯🇵 日本节点
+  - 🇰🇷 韩国节点
+  - 🚀 手动切换
+- name: 🎶 网易音乐
+  type: select
+  proxies:
+  - DIRECT
+  - 🚀 节点选择
+  - ♻️ 自动选择
+- name: 🎯 全球直连
+  type: select
+  proxies:
+  - DIRECT
+  - 🚀 节点选择
+  - ♻️ 自动选择
+- name: 🛑 广告拦截
+  type: select
+  proxies:
+  - REJECT
+  - DIRECT
+- name: 🍃 应用净化
+  type: select
+  proxies:
+  - REJECT
+  - DIRECT
+- name: 🐟 漏网之鱼
+  type: select
+  proxies:
+  - 🚀 节点选择
+  - ♻️ 自动选择
+  - DIRECT
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇸🇬 狮城节点
+  - 🇯🇵 日本节点
+  - 🇺🇲 美国节点
+  - 🇰🇷 韩国节点
+  - 🚀 手动切换
+tun:
+  enable: true
+  stack: mixed
+  device: Mihomo
+  auto-route: true
+  auto-redirect: false
+  auto-detect-interface: true
+  strict-route: false
+  exclude-uid:
+  - 995
+  route-exclude-address:
+  - 192.168.50.0/24
+  - 192.168.63.0/24
+  - 10.8.0.0/24
+  dns-hijack:
+  - any:53
+  - tcp://any:53
+rule-providers:
+  tz_xptv:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/taozuinb/tz_rule/refs/heads/main/xptv.rule
+    path: ./ruleset/tz_xptv.list
+    interval: 86400
+  tz_proxy_role:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/taozuinb/tz_rule/refs/heads/main/surge.proxy.role
+    path: ./ruleset/tz_proxy_role.list
+    interval: 86400
+  google_fcm:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/GoogleFCM.list
+    path: ./ruleset/google_fcm.list
+    interval: 86400
+  telegram:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Telegram.list
+    path: ./ruleset/telegram.list
+    interval: 86400
+  unban:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/UnBan.list
+    path: ./ruleset/unban.list
+    interval: 86400
+  google_cn:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/GoogleCN.list
+    path: ./ruleset/google_cn.list
+    interval: 86400
+  steam_cn:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/SteamCN.list
+    path: ./ruleset/steam_cn.list
+    interval: 86400
+  onedrive:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/OneDrive.list
+    path: ./ruleset/onedrive.list
+    interval: 86400
+  microsoft:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Microsoft.list
+    path: ./ruleset/microsoft.list
+    interval: 86400
+  apple:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Apple.list
+    path: ./ruleset/apple.list
+    interval: 86400
+  openai:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/OpenAi.list
+    path: ./ruleset/openai.list
+    interval: 86400
+  netease_music:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/NetEaseMusic.list
+    path: ./ruleset/netease_music.list
+    interval: 86400
+  epic:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Epic.list
+    path: ./ruleset/epic.list
+    interval: 86400
+  origin:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Origin.list
+    path: ./ruleset/origin.list
+    interval: 86400
+  sony:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Sony.list
+    path: ./ruleset/sony.list
+    interval: 86400
+  steam:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Steam.list
+    path: ./ruleset/steam.list
+    interval: 86400
+  nintendo:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Nintendo.list
+    path: ./ruleset/nintendo.list
+    interval: 86400
+  youtube:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/YouTube.list
+    path: ./ruleset/youtube.list
+    interval: 86400
+  netflix:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Netflix.list
+    path: ./ruleset/netflix.list
+    interval: 86400
+  bahamut:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Bahamut.list
+    path: ./ruleset/bahamut.list
+    interval: 86400
+  bilibili_hmt:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/BilibiliHMT.list
+    path: ./ruleset/bilibili_hmt.list
+    interval: 86400
+  bilibili:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Bilibili.list
+    path: ./ruleset/bilibili.list
+    interval: 86400
+  china_media:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaMedia.list
+    path: ./ruleset/china_media.list
+    interval: 86400
+  proxy_media:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyMedia.list
+    path: ./ruleset/proxy_media.list
+    interval: 86400
+  proxy_gfwlist:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyGFWlist.list
+    path: ./ruleset/proxy_gfwlist.list
+    interval: 86400
+  china_domain:
+    type: http
+    behavior: domain
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list
+    path: ./ruleset/china_domain.list
+    interval: 86400
+  china_company_ip:
+    type: http
+    behavior: ipcidr
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaCompanyIp.list
+    path: ./ruleset/china_company_ip.list
+    interval: 86400
+  download:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Download.list
+    path: ./ruleset/download.list
+    interval: 86400
+  lan:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/LocalAreaNetwork.list
+    path: ./ruleset/lan.list
+    interval: 86400
+  anti_ad:
+    type: http
+    behavior: classical
+    format: text
+    proxy: 🚀 节点选择
+    url: https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/master/anti-ad-surge.txt
+    path: ./ruleset/anti_ad.list
+    interval: 86400
+rules:
+- DOMAIN-SUFFIX,flyudesk.com,DIRECT
+- DOMAIN-SUFFIX,nuc.taozui.online,DIRECT
+- DOMAIN-SUFFIX,nas.taozui.online,DIRECT
+- DOMAIN-SUFFIX,bilibili.com,DIRECT
+- DOMAIN-SUFFIX,emby.moe,🚀 影视节点选择
+- DOMAIN-SUFFIX,xxlb.net,🚀 影视节点选择
+- DOMAIN-SUFFIX,uhdnow.com,🚀 影视节点选择
+- DOMAIN-SUFFIX,local,DIRECT
+- DOMAIN-SUFFIX,lan,DIRECT
+- IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+- IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+- IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+- IP-CIDR,192.168.1.0/16,DIRECT,no-resolve
+- IP-CIDR,192.168.50.0/16,DIRECT,no-resolve
+- RULE-SET,tz_proxy_role,🚀 节点选择
+- RULE-SET,google_fcm,📢 谷歌FCM
+- RULE-SET,openai,💬 OpenAi
+- RULE-SET,telegram,📲 电报消息
+- RULE-SET,unban,DIRECT
+- RULE-SET,google_cn,DIRECT
+- RULE-SET,steam_cn,DIRECT
+- RULE-SET,onedrive,Ⓜ️ 微软云盘
+- RULE-SET,microsoft,Ⓜ️ 微软服务
+- RULE-SET,apple,🍎 苹果服务
+- RULE-SET,netease_music,🎶 网易音乐
+- RULE-SET,epic,🎮 游戏平台
+- RULE-SET,origin,🎮 游戏平台
+- RULE-SET,sony,🎮 游戏平台
+- RULE-SET,steam,🎮 游戏平台
+- RULE-SET,nintendo,🎮 游戏平台
+- RULE-SET,youtube,📹 油管视频
+- RULE-SET,netflix,🎥 奈飞视频
+- RULE-SET,bahamut,📺 巴哈姆特
+- RULE-SET,bilibili_hmt,📺 哔哩哔哩
+- RULE-SET,bilibili,📺 哔哩哔哩
+- RULE-SET,china_media,🌏 国内媒体
+- RULE-SET,proxy_media,🌍 国外媒体
+- RULE-SET,proxy_gfwlist,🚀 节点选择
+- RULE-SET,china_domain,DIRECT
+- RULE-SET,china_company_ip,DIRECT
+- RULE-SET,download,DIRECT
+- GEOSITE,CN,DIRECT
+- GEOIP,CN,DIRECT,no-resolve
+- RULE-SET,lan,DIRECT
+- MATCH,🐟 漏网之鱼
+
+sniffer:
+  enable: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  override-destination: false
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
