@@ -674,6 +674,7 @@ rule-providers:
     path: ./ruleset/anti_ad.list
     interval: 86400
 rules:
+- DOMAIN,speed.cloudflare.com,🚀 影视节点选择
 - DOMAIN-SUFFIX,flyudesk.com,DIRECT
 - DOMAIN-SUFFIX,nuc.taozui.online,DIRECT
 - DOMAIN-SUFFIX,nas.taozui.online,DIRECT
